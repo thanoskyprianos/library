@@ -68,16 +68,18 @@ h1, h2{
     border-color: #9361bf;
 }
 
-.delete{
+.delete, .submit, .cancel{
     float: right;
     background: #9361bf;
     padding: 6px;
     border-radius: 4px;
     cursor: pointer;
     color: white;
+
+    margin-right: 5px;
 }
 
-.delete:hover{
+.delete:hover, .submit:hover, .cancel:hover{
     background: #333;
 }
 
@@ -88,7 +90,7 @@ h1, h2{
     flex-wrap: wrap;
 }
 
-#add-book input{
+#add-book input {
     display: block;
     margin: 20px 0;
     padding: 10px;
@@ -98,6 +100,13 @@ h1, h2{
     box-sizing: border-box;
     /* width: 300px; */
     float: left;
+}
+
+li input {
+    margin-right: 5px;
+    padding: 10px;
+
+    text-align: start;
 }
 
 #add-book button{

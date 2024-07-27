@@ -28,6 +28,10 @@ var Book = (() => {
         return this.isbn;
     }
 
+    Book.prototype.setId = function(id) {
+        this.id = id;
+    }
+
     Book.prototype.setTitle = function(title) {
         this.title = title;
     }
@@ -47,22 +51,43 @@ var Book = (() => {
         var title = document.createElement('span');
         var author = document.createElement('span');
         var isbn = document.createElement('span');
+
         var deleteBtn = document.createElement('span');
+        var submitBtn = document.createElement('span');
+        var cancelBtn = document.createElement('span');
 
         title.classList.add('title-entry');
+        title.classList.add('title-name');
+
         author.classList.add('title-entry');
+        author.classList.add('author-name');
+
         isbn.classList.add('title-entry');
+        isbn.classList.add('isbn-name');
+
         deleteBtn.classList.add('delete');
+        submitBtn.classList.add('submit');
+        cancelBtn.classList.add('cancel');
+
 
         title.textContent = this.title + ' ';
         author.textContent = this.author + ' ';
         isbn.textContent = this.isbn;
-        deleteBtn.textContent = 'delete'
+
+        deleteBtn.textContent = 'delete';
+        submitBtn.textContent = 'submit';
+        cancelBtn.textContent = 'cancel';
+
+        submitBtn.style.visibility = 'hidden';
+        cancelBtn.style.visibility = 'hidden';
 
         li.appendChild(title);
         li.appendChild(author);
         li.appendChild(isbn);
-        li.appendChild(deleteBtn)
+
+        li.appendChild(deleteBtn);
+        li.appendChild(submitBtn);
+        li.appendChild(cancelBtn);
 
         return li;
     }

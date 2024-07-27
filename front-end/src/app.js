@@ -19,10 +19,15 @@ async function updateList() {
     })
 }
 
-// delete book by id
+// delete or edit book by id
 list.addEventListener('click', async (e) => {
+    var li = e.target.parentElement;
+
+    var titleName = li.querySelector('.title-entry.title-name');
+    var authorName = li.querySelector('.title-entry.author-name');
+    var isbnName = li.querySelector('.title-entry.isbn-name');
+
     if (e.target.className == 'delete') {
-        var li = e.target.parentElement;
 
         // id in database
         var dbId = li.getAttribute('db-id');
@@ -30,6 +35,79 @@ list.addEventListener('click', async (e) => {
         await deleteBook(dbId);
 
         li.remove();
+    } else if (e.target.classList.contains('title-entry')) {
+        var submitBtn = li.querySelector('.submit');
+        var cancelBtn = li.querySelector('.cancel');
+
+        
+        var titleInpt = document.createElement('input');
+        var authorInpt = document.createElement('input');
+        var isbnInpt = document.createElement('input');
+        
+        var titleValue = titleName.textContent;
+        var authorValue = authorName.textContent;
+        var isbnValue = isbnName.textContent;
+
+        titleInpt.setAttribute('type', 'text');
+        titleInpt.placeholder = titleValue;
+        
+        authorInpt.setAttribute('type', 'text');
+        authorInpt.placeholder = authorValue;
+        
+        isbnInpt.setAttribute('type', 'text');
+        isbnInpt.placeholder = isbnValue;
+
+        titleName.style.display = 'none';
+        authorName.style.display = 'none';
+        isbnName.style.display = 'none';
+
+        li.prepend(isbnInpt);
+        li.prepend(authorInpt);
+        li.prepend(titleInpt);
+
+        submitBtn.style.visibility = 'visible';
+        cancelBtn.style.visibility = 'visible';
+    } else if (e.target.className == 'cancel') {
+        isbnName.style.display = 'inline';
+        authorName.style.display = 'inline';
+        titleName.style.display = 'inline';
+
+        var inpt = li.querySelectorAll('input');
+        inpt.forEach((input) => input.remove());
+
+        e.target.style.visibility = 'hidden';
+        var submitBtn = li.querySelector('.submit');
+        submitBtn.style.visibility = 'hidden';
+    } else if (e.target.className == 'submit') {
+        var inpt = li.querySelectorAll('input');
+
+        // only update if at least one new value is set
+        if (inpt[0].value || inpt[1].value || inpt[2].value) {
+            var title = inpt[0].value ? inpt[0].value : inpt[0].placeholder;
+            var author = inpt[1].value ? inpt[1].value : inpt[1].placeholder;
+            var isbn = inpt[2].value ? inpt[2].value : inpt[2].placeholder;
+    
+            var book = new Book();
+    
+            book.setId(li.getAttribute('db-id'));
+            book.setTitle(title);
+            book.setAuthor(author);
+            book.setISBN(isbn);
+    
+            await saveBook(book);    
+            await updateList();
+        }
+
+        isbnName.style.display = 'inline';
+        authorName.style.display = 'inline';
+        titleName.style.display = 'inline';
+
+        var inpt = li.querySelectorAll('input');
+        inpt.forEach((input) => input.remove());
+
+        e.target.style.visibility = 'hidden';
+        var cancelBtn = li.querySelector('.cancel');
+        cancelBtn.style.visibility = 'hidden';
     }
 });
 
@@ -80,3 +158,5 @@ searchBox.addEventListener('keyup', (e) => {
         }
     })
 });
+
+// edit book

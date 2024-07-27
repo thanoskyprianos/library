@@ -7,3 +7,10 @@ This was a project that extended the tutorial of NetNinja regarding DOM manipula
 The tutorial can be found [here](https://www.youtube.com/playlist?list=PL4cUxeGkcC9gfoKa5la9dsdCNpuey2s-V).
 
 The backend is written in Spring Boot.
+
+---
+
+To run the app execute either `run.ps` or `run.sh` depending on your OS.
+
+
+**Make sure no application is using port 8080 (or the port you have specified in `application.properties`) before running the app again or it won't start**
